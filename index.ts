@@ -1,26 +1,11 @@
 import express, { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
+import { secretKey, createToken, verifyToken } from './token';
 
 const port = 3000
 
 const app = express();
 
 app.use(express.json());
-
-// Interfaces
-interface User {
-    id: number;
-    username: string;
-    password: string; // In a real app, never store plain text passwords
-}
-
-// Define types for payload and token
-interface JwtPayload {
-    userId: number;
-    username: string;
-}
-const secretKey: string = 'your-secret-key';
-
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
@@ -57,34 +42,14 @@ app.post('/login', (req, res) => {
     // For now, just logging the received data
     console.log(`Login: username=${username}`);
 
-
-    // Function to create a token
-    function createToken(user: JwtPayload): string {
-        return jwt.sign(user, secretKey, { expiresIn: '1h' });
-    }
-
-    // Function to verify a token
-    function verifyToken(token: string): JwtPayload | null {
-        try {
-            return jwt.verify(token, secretKey) as JwtPayload;
-        } catch (error) {
-            console.error('Token verification failed:', error);
-            return null;
-        }
-    }
-
     // Usage example
-    const newToken = createToken({ userId: 456, username: 'newuser' });
-    const verifiedPayload = verifyToken(newToken);
+    const token = createToken({ userId: 456, username: 'newuser' });
 
-    if (verifiedPayload) {
-        console.log('Verified user:', verifiedPayload.username);
-    } else {
-        console.log('Invalid token');
-    }
-
-
-    res.send('User logged in');
+    // Return token in response
+    res.json({
+        message: 'Logged in successfully',
+        token: token
+    });
 });
 
 // protected route
@@ -93,10 +58,20 @@ app.get('/protected', (req, res) => {
     // If valid, send protected data
     // If not, send unauthorized
 
+    // find token from request
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1] as string; // Bearer <token>
 
+    // verify token
+    const verifiedPayload = verifyToken(token ? token : '');
 
+    if (verifiedPayload) {
+        console.log('Verified user:', verifiedPayload.username);
+    } else {
+        console.log('Invalid token');
+    }
 
-    res.send('Protected route');
+    res.json({ message: 'Accessed protected route' });
 });
 
 
