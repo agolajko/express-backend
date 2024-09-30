@@ -60,7 +60,8 @@ app.get('/protected', (req, res) => {
 
     // find token from request
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1] as string; // Bearer <token>
+    // Bearer <token>
+    const token = authHeader && authHeader.split(' ')[1] as string;
 
     // verify token
     const verifiedPayload = verifyToken(token ? token : '');
