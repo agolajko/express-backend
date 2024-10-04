@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import { secretKey, createToken, verifyToken } from './token';
 
-const port = 3000
+const port = 8000;
 
 const app = express();
 
@@ -17,13 +17,12 @@ app.get('/', (req, res) => {
 })
 
 // Register user with a POST request
-app.post('/register', (req, res) => {
+app.post('/api/register', (req, res) => {
     const { username, password, email } = req.body;
 
     // Check if username or email is taken
     // Hash password
     // Add user to DB
-    // create token?
 
     // For now, just logging the received data
     console.log(`Received: username=${username}, email=${email}`);
@@ -32,7 +31,7 @@ app.post('/register', (req, res) => {
 });
 
 // Login user with a POST request
-app.post('/login', (req, res) => {
+app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
 
     // Check if user exists
@@ -53,7 +52,7 @@ app.post('/login', (req, res) => {
 });
 
 // protected route
-app.get('/protected', (req, res) => {
+app.get('/api/protected', (req, res) => {
     // Check if token is valid
     // If valid, send protected data
     // If not, send unauthorized
