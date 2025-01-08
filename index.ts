@@ -47,7 +47,7 @@ app.post('/api/login', (req, res) => {
     // Return token in response
     res.json({
         message: 'Logged in successfully',
-        token: token
+        token: `Bearer ${token}`
     });
 });
 
@@ -60,9 +60,13 @@ app.get('/api/protected', (req, res) => {
     // find token from request
     const authHeader = req.headers['authorization'];
     // Bearer <token>
+
+    console.log('Auth header:', authHeader);
+
     const token = authHeader && authHeader.split(' ')[1] as string;
 
     // verify token
+    console.log('Token:', token);
     const verifiedPayload = verifyToken(token ? token : '');
 
     if (verifiedPayload) {
