@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node index.ts",
     "generate": "drizzle-kit generate",
-    "migrate": "ts-node -r dotenv/config db/migrate.ts"
+    "migrate": "ts-node -r dotenv/config db/migrate.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node index.ts"
   },
   "keywords": [],
   "author": "",
