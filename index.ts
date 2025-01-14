@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import { secretKey, createToken, verifyToken } from './token';
 
-const port = 8000;
+const port = process.env.PORT || 8000;
 
 const app = express();
 
@@ -91,11 +91,14 @@ app.get('/api/protected', (req: Request, res: Response) => {
 
     if (verifiedPayload) {
         console.log('Verified user:', verifiedPayload.username);
+        res.json({ message: 'Accessed protected route' });
+
     } else {
         console.log('Invalid token');
+        res.status(401).json({ message: 'Unauthorized' });
+
     }
 
-    res.json({ message: 'Accessed protected route' });
 });
 
 

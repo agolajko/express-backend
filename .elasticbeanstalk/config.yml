@@ -1,0 +1,19 @@
+branch-defaults:
+  main:
+    environment: Node-app-env
+environment-defaults:
+  Node-app-env:
+    branch: null
+    repository: null
+global:
+  application_name: node-app
+  default_ec2_keyname: ec2_login
+  default_platform: Node.js 18 running on 64bit Amazon Linux 2023
+  default_region: eu-west-2
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: null
+  sc: git
+  workspace_type: Application
