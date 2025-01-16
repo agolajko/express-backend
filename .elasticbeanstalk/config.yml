@@ -1,13 +1,13 @@
 branch-defaults:
   main:
-    environment: Node-app-env
+    environment: Node-app-backend-env
 environment-defaults:
-  Node-app-env:
+  Node-app-backend-env:
     branch: null
     repository: null
 global:
-  application_name: node-app
-  default_ec2_keyname: ec2_login
+  application_name: node-app-backend
+  default_ec2_keyname: new_ec2
   default_platform: Node.js 18 running on 64bit Amazon Linux 2023
   default_region: eu-west-2
   include_git_submodules: true
