@@ -29,19 +29,19 @@ app.use(cors({
     credentials: true
 }));
 
-app.use((req, res, next) => {
-    // Skip redirect for direct IP access
-    if (req.hostname.match(/^\d+\.\d+\.\d+\.\d+$/)) {
-        return next();
-    }
+// app.use((req, res, next) => {
+//     // Skip redirect for direct IP access
+//     if (req.hostname.match(/^\d+\.\d+\.\d+\.\d+$/)) {
+//         return next();
+//     }
 
-    // Only redirect domain traffic to HTTPS
-    if (req.hostname === 'testdomain123.click' &&
-        req.get('X-Forwarded-Proto') !== 'https') {
-        return res.redirect(`https://${req.get('host')}${req.originalUrl}`);
-    }
-    next();
-});
+//     // Only redirect domain traffic to HTTPS
+//     if (req.hostname === 'testdomain123.click' &&
+//         req.get('X-Forwarded-Proto') !== 'https') {
+//         return res.redirect(`https://${req.get('host')}${req.originalUrl}`);
+//     }
+//     next();
+// });
 
 //public route
 app.get('/', (req: Request, res: Response) => {
