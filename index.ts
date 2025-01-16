@@ -15,7 +15,6 @@ app.listen(process.env.PORT || 8080, () => {
 app.set('trust proxy', true);
 
 app.use(express.json());
-app.use(express.static('dist'));
 
 app.use(cors({
     origin: [
@@ -134,6 +133,8 @@ app.get('/api/protected', (req: Request, res: Response) => {
     }
 
 });
+
+app.use(express.static('dist'));
 
 app.get('*', (req: Request, res: Response) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'));
