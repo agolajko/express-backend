@@ -8,8 +8,8 @@ const app = express();
 
 const port = process.env.PORT || 80;
 
-app.listen(process.env.PORT || 8080, () => {
-    console.log('Example app listening on port 8080');
+app.listen(process.env.PORT || 80, () => {
+    console.log('Example app listening on port 80');
 });
 
 app.set('trust proxy', true);
