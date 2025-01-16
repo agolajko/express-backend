@@ -133,9 +133,3 @@ app.get('/api/protected', (req: Request, res: Response) => {
     }
 
 });
-
-app.use(express.static('dist'));
-
-app.get('*', (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
