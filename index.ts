@@ -2,7 +2,8 @@ import express, { Express, Request, Response } from 'express';
 import { secretKey, createToken, verifyToken } from './token';
 import cors from 'cors';
 import path from 'path';
-
+import { db } from './db/db';
+import { users as db_users } from './db/schema';
 const app = express();
 
 
@@ -132,4 +133,14 @@ app.get('/api/protected', (req: Request, res: Response) => {
 
     }
 
+});
+
+app.get('/api/db-test', async (req: Request, res: Response) => {
+    try {
+        const result = await db.select().from(db_users).limit(1);
+        res.json({ status: 'Connected', users: result });
+    } catch (error: any) {
+        console.error('DB Error:', error); // For debugging
+        res.status(500).json({ status: 'Error', message: error.message });
+    }
 });
