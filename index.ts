@@ -3,10 +3,15 @@ import { secretKey, createToken, verifyToken } from './token';
 import cors from 'cors';
 import path from 'path';
 
-
-const port = process.env.PORT || 8080;
-
 const app = express();
+
+
+const port = process.env.PORT || 80;
+
+app.listen(process.env.PORT || 8080, () => {
+    console.log('Example app listening on port 8080');
+});
+
 app.set('trust proxy', true);
 
 app.use(express.json());
@@ -25,28 +30,11 @@ app.use(cors({
 }));
 
 app.use((req, res, next) => {
-    // Skip redirect for health checks, EB domain, and local requests
-    if (req.get('User-Agent')?.includes('ELB-HealthChecker') ||
-        req.get('X-Forwarded-Proto') === 'https' ||
-        req.hostname === 'localhost' ||
-        req.hostname.includes('elasticbeanstalk.com')) {  // Add this line
-        return next();
-    }
-
-    // Redirect HTTPS only for custom domain
-    if (req.get('X-Forwarded-Proto') !== 'https') {
+    if (req.hostname === 'testdomain123.click' &&
+        req.get('X-Forwarded-Proto') !== 'https') {
         return res.redirect(`https://${req.get('host')}${req.originalUrl}`);
     }
     next();
-});
-
-app.listen(process.env.PORT || 8080, () => {
-    console.log('Example app listening on port 8080');
-});
-
-// Listen on secondary port
-app.listen(8081, () => {
-    console.log('Example app listening on port 8081');
 });
 
 //public route
